@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SafeShift Systems — Incident reporting, properly built.</title>
+<meta name="description" content="We rebuild your incident reporting inside the Microsoft 365 tools you already own. Two weeks. No new software." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  /* ───────── tokens ───────── */
+  :root{
+    --navy:#1A3A5C;
+    --navy-deep:#0F2238;
+    --orange:#F05A28;
+    --mid:#6E7683;
+    --soft:#9AA0AE;
+    --border:#EAECF1;
+    --canvas:#F7F8FA;
+    --white:#FFFFFF;
+    --hairline-dark:rgba(255,255,255,0.08);
+    --hairline-mid:rgba(255,255,255,0.14);
+    --body-dark:rgba(255,255,255,0.65);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{
+    font-family:"Inter",Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";
+    background:var(--navy);
+    color:var(--white);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;}
+
+  /* ───────── shared ───────── */
+  .container{
+    width:100%;
+    max-width:1240px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  @media (max-width:640px){ .container{padding:0 20px;} }
+
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-size:10px;
+    font-weight:700;
+    color:var(--orange);
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    margin:0 0 22px;
+  }
+  .eyebrow::after{
+    content:"";
+    flex:0 0 56px;
+    height:1px;
+    background:var(--orange);
+    opacity:0.7;
+  }
+
+  /* ───────── nav ───────── */
+  .nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    height:64px;
+    background:var(--navy);
+    border-bottom:1px solid var(--hairline-dark);
+    backdrop-filter:saturate(140%);
+  }
+  .nav-inner{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .brand{
+    display:inline-flex;
+    align-items:center;
+    color:var(--white);
+  }
+  /* canonical horizontal lockup from brand guide — viewBox 0 0 242 68.1 */
+  .brand .lockup{
+    height:36px;
+    width:auto;
+    display:block;
+  }
+  .cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--orange);
+    color:var(--white);
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.01em;
+    padding:11px 18px;
+    border:1px solid var(--orange);
+    transition:background .15s ease,transform .15s ease;
+  }
+  .cta:hover{background:#d94c1f;border-color:#d94c1f;}
+  .cta:active{transform:translateY(1px);}
+  .cta .arrow{
+    width:14px;height:14px;display:inline-block;
+    border-top:2px solid currentColor;
+    border-right:2px solid currentColor;
+    transform:rotate(45deg);
+    margin-left:2px;
+    margin-right:-2px;
+    margin-top:1px;
+  }
+  @media (max-width:520px){
+    .brand .lockup{height:30px;}
+    .cta{padding:10px 14px;font-size:12px;}
+  }
+
+  /* ───────── hero ───────── */
+  .hero{
+    background:var(--navy);
+    padding:96px 0 120px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    /* subtle structural rule, earned */
+    content:"";
+    position:absolute;
+    left:0;right:0;top:0;
+    height:1px;
+    background:transparent;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);
+    gap:80px;
+    align-items:start;
+  }
+  @media (max-width:980px){
+    .hero{padding:64px 0 88px;}
+    .hero-grid{grid-template-columns:1fr;gap:56px;}
+    .mech{--mech-offset:0px;}
+  }
+
+  .hero h1{
+    font-family:"Inter",Arial,sans-serif;
+    font-weight:900;
+    font-size:clamp(48px,6.4vw,72px);
+    line-height:1.02;
+    letter-spacing:-0.04em;
+    color:var(--white);
+    margin:0 0 32px;
+  }
+  .hero h1 .break{display:block;}
+
+  .lead{
+    color:var(--body-dark);
+    font-size:18px;
+    line-height:1.7;
+    max-width:54ch;
+    margin:0 0 12px;
+  }
+  .lead + .lead{margin-top:18px;}
+  .lead strong{
+    color:var(--white);
+    font-weight:600;
+  }
+
+  .lead-divider{
+    width:48px;
+    height:1px;
+    background:var(--hairline-mid);
+    margin:28px 0;
+    border:0;
+  }
+
+  /* proof */
+  .proof{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:0;
+    margin:44px 0 44px;
+    border-top:1px solid var(--hairline-mid);
+    border-bottom:1px solid var(--hairline-mid);
+  }
+  .proof-item{
+    padding:22px 24px 22px 0;
+    border-right:1px solid var(--hairline-mid);
+  }
+  .proof-item:last-child{border-right:0;padding-right:0;}
+  .proof-item:not(:first-child){padding-left:24px;}
+  .proof-num{
+    font-weight:800;
+    font-size:34px;
+    letter-spacing:-0.03em;
+    color:var(--orange);
+    line-height:1;
+    display:block;
+    margin-bottom:8px;
+  }
+  .proof-num .unit{
+    font-size:18px;
+    font-weight:700;
+    margin-left:2px;
+    letter-spacing:-0.02em;
+  }
+  .proof-label{
+    color:var(--soft);
+    font-size:13px;
+    font-weight:400;
+    line-height:1.4;
+  }
+  @media (max-width:640px){
+    .proof{grid-template-columns:1fr;}
+    .proof-item{
+      border-right:0;
+      border-bottom:1px solid var(--hairline-mid);
+      padding:18px 0;
+    }
+    .proof-item:last-child{border-bottom:0;}
+    .proof-item:not(:first-child){padding-left:0;}
+  }
+
+  /* hero CTA block */
+  .cta-block{margin-top:8px;}
+  .cta-block .pitch{
+    color:var(--white);
+    font-weight:600;
+    font-size:18px;
+    letter-spacing:-0.01em;
+    margin:0 0 16px;
+  }
+  .cta-mail{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    background:var(--orange);
+    color:var(--white);
+    font-weight:700;
+    font-size:16px;
+    padding:18px 24px;
+    letter-spacing:0.005em;
+    border:1px solid var(--orange);
+    transition:background .15s ease,transform .15s ease;
+  }
+  .cta-mail:hover{background:#d94c1f;border-color:#d94c1f;}
+  .cta-mail:active{transform:translateY(1px);}
+  .cta-mail svg{width:18px;height:18px;}
+  .reply{
+    color:var(--soft);
+    font-size:13px;
+    margin-top:14px;
+    letter-spacing:0.005em;
+  }
+
+  /* ───────── mechanism card ───────── */
+  .mech{
+    background:var(--navy-deep);
+    border:1px solid var(--hairline-mid);
+    padding:22px 28px 24px;
+    margin-top:var(--mech-offset, 42px);
+    position:relative;
+    box-shadow:0 30px 80px -30px rgba(0,0,0,.6),
+               inset 0 1px 0 rgba(255,255,255,.03);
+  }
+  .mech-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--hairline-mid);
+    margin-bottom:22px;
+  }
+  .mech-eyebrow{
+    font-size:10px;
+    font-weight:700;
+    color:var(--orange);
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+  }
+  .mech-status{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:10px;
+    font-weight:600;
+    color:var(--soft);
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+  }
+  .mech-status .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--orange);
+    box-shadow:0 0 0 0 rgba(240,90,40,.6);
+    animation:pulse 2.4s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(240,90,40,.55);}
+    70%{box-shadow:0 0 0 8px rgba(240,90,40,0);}
+    100%{box-shadow:0 0 0 0 rgba(240,90,40,0);}
+  }
+
+  .steps{
+    list-style:none;
+    margin:0;
+    padding:0;
+    counter-reset:step;
+    position:relative;
+  }
+  /* connector spine */
+  .steps::before{
+    content:"";
+    position:absolute;
+    left:21px;
+    top:18px;
+    bottom:18px;
+    width:1px;
+    background:linear-gradient(
+      to bottom,
+      var(--hairline-mid) 0,
+      var(--hairline-mid) 100%
+    );
+  }
+  .step{
+    display:grid;
+    grid-template-columns:42px 1fr auto;
+    align-items:center;
+    gap:14px;
+    padding:14px 0;
+    position:relative;
+    opacity:0;
+    transform:translateY(6px);
+    animation:stepIn .55s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .step:nth-child(1){animation-delay:.15s;}
+  .step:nth-child(2){animation-delay:.95s;}
+  .step:nth-child(3){animation-delay:1.75s;}
+  .step:nth-child(4){animation-delay:2.55s;}
+  .step:nth-child(5){animation-delay:3.35s;}
+
+  @keyframes stepIn{
+    0%{opacity:0;transform:translateY(8px);}
+    100%{opacity:1;transform:translateY(0);}
+  }
+
+  .step .icon{
+    width:42px;height:42px;
+    background:transparent;
+    border:1px solid var(--hairline-mid);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--white);
+    position:relative;
+    z-index:1;
+  }
+  .step.accent .icon{
+    border-color:var(--orange);
+    color:var(--orange);
+    background:rgba(240,90,40,0.08);
+  }
+  .step .icon svg{width:18px;height:18px;}
+
+  .step .body{
+    min-width:0;
+  }
+  .step .label{
+    font-size:10px;
+    font-weight:700;
+    color:var(--soft);
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .step .title{
+    color:var(--white);
+    font-weight:600;
+    font-size:14px;
+    line-height:1.35;
+    letter-spacing:-0.005em;
+  }
+  .step .meta{
+    color:var(--soft);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.04em;
+    white-space:nowrap;
+  }
+
+  .mech-foot{
+    margin-top:22px;
+    padding-top:16px;
+    border-top:1px solid var(--hairline-mid);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .mech-foot .note{
+    font-size:11px;
+    color:var(--soft);
+    letter-spacing:0.06em;
+  }
+  .mech-foot .badge{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--white);
+    opacity:.85;
+  }
+
+  /* ───────── footer ───────── */
+  footer{
+    background:var(--navy);
+    border-top:1px solid var(--hairline-dark);
+    padding:28px 0;
+  }
+  .foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    color:var(--soft);
+    font-size:13px;
+    font-weight:400;
+  }
+  .foot a:hover{color:var(--white);}
+  @media (max-width:640px){
+    .foot{flex-direction:column;align-items:flex-start;gap:6px;}
+  }
+
+  /* reduce-motion */
+  @media (prefers-reduced-motion:reduce){
+    .step{animation:none;opacity:1;transform:none;}
+    .mech-status .dot{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────── 01 NAV ─────────── -->
+<nav class="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a class="brand" href="#top" aria-label="SafeShift Systems home">
+      <svg class="lockup" viewBox="0 0 242 68.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="6.51,0 41.38,32.09 0,68.07 56.63,68.07 60.44,64.73 45.83,52.1 68.94,30.66 45.04,9.53 60.29,0" fill="#FFFFFF"/>
+        <polygon points="67.2,0 51.55,9.53 75.38,30.58 51.87,52.18 63.15,62.35 100,30.74" fill="#F05A28"/>
+        <text x="112" y="38.05" text-anchor="start"
+          font-family="Inter, Arial, sans-serif"
+          font-weight="800" font-size="22"
+          letter-spacing="-1.54"
+          fill="#FFFFFF">SAFESHIFT</text>
+        <text x="113.3" y="52.05" text-anchor="start"
+          font-family="Inter, Arial, sans-serif"
+          font-weight="500" font-size="8"
+          letter-spacing="2.56"
+          fill="rgba(255,255,255,0.4)">SYSTEMS</text>
+      </svg>
+    </a>
+    <a class="cta" href="/cdn-cgi/l/email-protection#abd9c4c9ebd8cacdced8c3c2cddf85c8c4c685cade94d8dec9c1cec8df96f8cacdcef8c3c2cddf8e999bdbd9cecdc7c2ccc3df8e999bc8cac7c7">
+      <span class="__cf_email__" data-cfemail="3a4855587a495b5c5f4952535c4e14595557145b4f">[email&#160;protected]</span><span class="arrow" aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+<!-- ─────────── 02 HERO ─────────── -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+
+    <!-- LEFT: copy -->
+    <div class="hero-copy">
+      <div class="eyebrow">SafeShift Incident</div>
+
+      <h1>
+        <span class="break">Your incident</span>
+        <span class="break">reporting is broken.</span>
+        <span class="break">You already know it.</span>
+      </h1>
+
+      <p class="lead">
+        The frontline doesn't report because it's too hard.<br/>
+        When they do, it disappears into an inbox.<br/>
+        Nobody owns it. Nothing gets closed out.<br/>
+        And the whole thing only works because one person<br/>
+        is holding it together.
+      </p>
+
+      <p class="lead">
+        When they leave, you'll find out how broken it really is.
+      </p>
+
+      <hr class="lead-divider" />
+
+      <p class="lead">
+        <strong>It was never built. It was just held together.</strong>
+      </p>
+
+      <p class="lead">
+        We build it properly. Inside the tools you already own.<br/>
+        Two weeks. No new software. No new logins.<br/>
+        Your team runs it. You own it. Day one.
+      </p>
+
+      <!-- proof -->
+      <div class="proof" role="list">
+        <div class="proof-item" role="listitem">
+          <span class="proof-num">&lt;3<span class="unit">min</span></span>
+          <div class="proof-label">to report from any phone</div>
+        </div>
+        <div class="proof-item" role="listitem">
+          <span class="proof-num">2<span class="unit">weeks</span></span>
+          <div class="proof-label">from first call to live</div>
+        </div>
+        <div class="proof-item" role="listitem">
+          <span class="proof-num">0</span>
+          <div class="proof-label">new software for your team</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-block">
+        <p class="pitch">Book a 15-minute preflight call.</p>
+        <a class="cta-mail" href="/cdn-cgi/l/email-protection#34465b567447555251475c5d52401a575b591a55410b4741565e5157400967555251675c5d524011060444465152585d535c4011060457555858">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true">
+            <path d="M3 5h18v14H3z"/>
+            <path d="M3 6l9 7 9-7"/>
+          </svg>
+          <span class="__cf_email__" data-cfemail="33415c517340525556405b5a55471d505c5e1d5246">[email&#160;protected]</span>
+        </a>
+        <div class="reply">I'll reply within one business day.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: mechanism card -->
+    <aside class="mech" aria-label="How a SafeShift incident flows">
+      <div class="mech-head">
+        <span class="mech-eyebrow">SafeShift Incident</span>
+        <span class="mech-status"><span class="dot"></span>Live</span>
+      </div>
+
+      <ol class="steps">
+        <!-- 1 -->
+        <li class="step accent">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+              <rect x="6" y="2" width="12" height="20" rx="1"/>
+              <line x1="10" y1="18" x2="14" y2="18"/>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="label">Step 01</div>
+            <div class="title">Staff submits from any phone</div>
+          </div>
+          <div class="meta">00:00</div>
+        </li>
+        <!-- 2 -->
+        <li class="step">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+              <polyline points="4 12 10 18 20 6"/>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="label">Step 02</div>
+            <div class="title">Record created in SharePoint</div>
+          </div>
+          <div class="meta">00:02</div>
+        </li>
+        <!-- 3 -->
+        <li class="step">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+              <circle cx="12" cy="8" r="3.5"/>
+              <path d="M4.5 20c1.2-3.5 4.2-5.5 7.5-5.5s6.3 2 7.5 5.5"/>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="label">Step 03</div>
+            <div class="title">Owner assigned automatically</div>
+          </div>
+          <div class="meta">00:03</div>
+        </li>
+        <!-- 4 -->
+        <li class="step accent">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+              <path d="M6 2h9l4 4v16H6z"/>
+              <polyline points="15 2 15 6 19 6"/>
+              <line x1="9" y1="13" x2="16" y2="13"/>
+              <line x1="9" y1="17" x2="16" y2="17"/>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="label">Step 04</div>
+            <div class="title">PDF generated &amp; filed</div>
+          </div>
+          <div class="meta">00:04</div>
+        </li>
+        <!-- 5 -->
+        <li class="step">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+              <circle cx="12" cy="13" r="8"/>
+              <polyline points="12 8 12 13 15.5 15"/>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="label">Step 05</div>
+            <div class="title">Overdue alerts armed automatically</div>
+          </div>
+          <div class="meta">Daily 08:00</div>
+        </li>
+      </ol>
+
+      <div class="mech-foot">
+        <span class="note">Automatic on every submission.</span>
+        <span class="badge">No human required</span>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<!-- ─────────── 03 FOOTER ─────────── -->
+<footer>
+  <div class="container foot">
+    <div>SafeShift Systems · ABN 54 818 564 284</div>
+    <div>Port Noarlunga South, South Australia · <a href="/cdn-cgi/l/email-protection#d0a2bfb290a3b1b6b5a3b8b9b6a4feb3bfbdfeb1a5"><span class="__cf_email__" data-cfemail="cfbda0ad8fbcaea9aabca7a6a9bbe1aca0a2e1aeba">[email&#160;protected]</span></a></div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
