@@ -317,19 +317,16 @@
     counter-reset:step;
     position:relative;
   }
-  /* connector spine */
-  .steps::before{
+  /* connector spine — segments between steps only, breaks at each icon */
+  .step + .step::before{
     content:"";
     position:absolute;
     left:21px;
-    top:18px;
-    bottom:18px;
+    top:-6px;
+    height:12px;
     width:1px;
-    background:linear-gradient(
-      to bottom,
-      var(--hairline-mid) 0,
-      var(--hairline-mid) 100%
-    );
+    background:var(--hairline-mid);
+    transform:translateX(-0.5px);
   }
   .step{
     display:grid;
@@ -467,8 +464,8 @@
           fill="rgba(255,255,255,0.4)">SYSTEMS</text>
       </svg>
     </a>
-    <a class="cta" href="/cdn-cgi/l/email-protection#abd9c4c9ebd8cacdced8c3c2cddf85c8c4c685cade94d8dec9c1cec8df96f8cacdcef8c3c2cddf8e999bdbd9cecdc7c2ccc3df8e999bc8cac7c7">
-      <span class="__cf_email__" data-cfemail="3a4855587a495b5c5f4952535c4e14595557145b4f">[email&#160;protected]</span><span class="arrow" aria-hidden="true"></span>
+    <a class="cta" href="mailto:rob@safeshift.com.au">
+      rob@safeshift.com.au<span class="arrow" aria-hidden="true"></span>
     </a>
   </div>
 </nav>
@@ -523,19 +520,18 @@
         </div>
         <div class="proof-item" role="listitem">
           <span class="proof-num">0</span>
-          <div class="proof-label">new software for your team</div>
+          <div class="proof-label">zero new software</div>
         </div>
       </div>
 
       <!-- CTA -->
       <div class="cta-block">
         <p class="pitch">Book a 15-minute preflight call.</p>
-        <a class="cta-mail" href="/cdn-cgi/l/email-protection#34465b567447555251475c5d52401a575b591a55410b4741565e5157400967555251675c5d524011060444465152585d535c4011060457555858">
+        <a class="cta-mail" href="mailto:rob@safeshift.com.au">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true">
             <path d="M3 5h18v14H3z"/>
             <path d="M3 6l9 7 9-7"/>
           </svg>
-          <span class="__cf_email__" data-cfemail="33415c517340525556405b5a55471d505c5e1d5246">[email&#160;protected]</span>
         </a>
         <div class="reply">I'll reply within one business day.</div>
       </div>
@@ -635,9 +631,9 @@
 <footer>
   <div class="container foot">
     <div>SafeShift Systems · ABN 54 818 564 284</div>
-    <div>Port Noarlunga South, South Australia · <a href="/cdn-cgi/l/email-protection#d0a2bfb290a3b1b6b5a3b8b9b6a4feb3bfbdfeb1a5"><span class="__cf_email__" data-cfemail="cfbda0ad8fbcaea9aabca7a6a9bbe1aca0a2e1aeba">[email&#160;protected]</span></a></div>
+    <div>Port Noarlunga South, South Australia · <a href="mailto:rob@safeshift.com.au">rob@safeshift.com.au</a></div>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</body>
 </html>
