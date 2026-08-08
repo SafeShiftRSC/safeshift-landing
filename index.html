@@ -115,6 +115,7 @@ a{color:inherit;}
   .footer{flex-direction:column;align-items:flex-start;}
 }
 </style>
+<script data-goatcounter="https://safeshift.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="page" id="top">
@@ -291,6 +292,9 @@ document.getElementById('enquiry-form').addEventListener('submit', async functio
     });
     const data = await res.json();
     if(data.success){
+      if(window.goatcounter && window.goatcounter.count){
+        window.goatcounter.count({path: 'enquiry-submitted', title: 'Enquiry submitted', event: true});
+      }
       form.innerHTML = '';
       status.textContent = "Got it. I'll reply within one business day.";
       status.style.color = '#F05A28';
