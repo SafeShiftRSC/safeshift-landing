@@ -1,643 +1,311 @@
-<!doctype html>
-<html lang="en-AU">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SafeShift Systems | Incident reporting, properly built.</title>
-<meta name="description" content="We rebuild your incident reporting inside the Microsoft 365 tools you already own. Two weeks. No new software." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="We rebuild your incident reporting inside the Microsoft 365 tools you already own. Two weeks. No new software.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* ───────── tokens ───────── */
-  :root{
-    --navy:#1A3A5C;
-    --navy-deep:#0F2238;
-    --orange:#F05A28;
-    --mid:#6E7683;
-    --soft:#9AA0AE;
-    --border:#EAECF1;
-    --canvas:#F7F8FA;
-    --white:#FFFFFF;
-    --hairline-dark:rgba(255,255,255,0.08);
-    --hairline-mid:rgba(255,255,255,0.14);
-    --body-dark:rgba(255,255,255,0.65);
-  }
+:root{
+  --navy:#1A3A5C; --navy-dark:#0F2238; --navy-light:#38587A;
+  --orange:#F05A28; --orange-burnt:#A83B18;
+  --grey:#6E7683; --soft:#9AA0AE;
+  --canvas:#F7F8FA; --border:#EAECF1; --white:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:"Inter",sans-serif;}
+html{scroll-behavior:smooth;}
+body{background:var(--canvas);color:var(--navy);-webkit-font-smoothing:antialiased;}
+.page{width:100%;}
+a{color:inherit;}
+.mono{font-family:"DM Mono",monospace;}
 
-  *,*::before,*::after{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-  body{
-    font-family:"Inter",Arial,sans-serif;
-    font-feature-settings:"ss01","cv11";
-    background:var(--navy);
-    color:var(--white);
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-  }
-  img,svg{display:block;max-width:100%;}
-  a{color:inherit;text-decoration:none;}
-  button{font:inherit;}
+/* HEADER */
+.header{padding:24px 60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);z-index:10;}
+.mark{display:flex;align-items:center;gap:12px;}
+.mark svg{width:26px;height:18px;flex-shrink:0;}
+.mark-text .brand{font-weight:800;font-size:14px;letter-spacing:-.05em;color:var(--navy);text-transform:uppercase;line-height:1;}
+.mark-text .sub{font-weight:500;font-size:6.5px;letter-spacing:.3em;color:var(--soft);text-transform:uppercase;margin-top:4px;}
+.header-cta{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--navy);text-decoration:none;border:1.5px solid var(--navy);border-radius:3px;padding:9px 16px;transition:all .18s ease;white-space:nowrap;}
+.header-cta:hover{background:var(--navy);color:var(--white);}
 
-  /* ───────── shared ───────── */
-  .container{
-    width:100%;
-    max-width:1240px;
-    margin:0 auto;
-    padding:0 32px;
-  }
-  @media (max-width:640px){ .container{padding:0 20px;} }
+/* SLIDE — the repeating unit */
+.slide{padding:72px 60px;position:relative;border-bottom:1px solid var(--border);}
+.slide.light{background:var(--white);}
+.slide.canvas{background:var(--canvas);}
+.slide.dark{background:var(--navy-dark);border-bottom:1px solid rgba(255,255,255,.08);}
+.slide-inner{max-width:1080px;margin:0 auto;}
 
-  .eyebrow{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    font-size:10px;
-    font-weight:700;
-    color:var(--orange);
-    letter-spacing:0.22em;
-    text-transform:uppercase;
-    margin:0 0 22px;
-  }
-  .eyebrow::after{
-    content:"";
-    flex:0 0 56px;
-    height:1px;
-    background:var(--orange);
-    opacity:0.7;
-  }
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:22px;}
+.eyebrow::before{content:"";width:22px;height:1.5px;}
+.slide.light .eyebrow,.slide.canvas .eyebrow{color:var(--orange-burnt);}
+.slide.light .eyebrow::before,.slide.canvas .eyebrow::before{background:var(--orange-burnt);}
+.slide.dark .eyebrow{color:var(--orange);}
+.slide.dark .eyebrow::before{background:var(--orange);}
 
-  /* ───────── nav ───────── */
-  .nav{
-    position:sticky;
-    top:0;
-    z-index:50;
-    height:64px;
-    background:var(--navy);
-    border-bottom:1px solid var(--hairline-dark);
-    backdrop-filter:saturate(140%);
-  }
-  .nav-inner{
-    height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-  }
-  .brand{
-    display:inline-flex;
-    align-items:center;
-    color:var(--white);
-  }
-  /* canonical horizontal lockup from brand guide — viewBox 0 0 242 68.1 */
-  .brand .lockup{
-    height:36px;
-    width:auto;
-    display:block;
-  }
-  .cta{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    background:var(--orange);
-    color:var(--white);
-    font-weight:700;
-    font-size:13px;
-    letter-spacing:0.01em;
-    padding:11px 18px;
-    border:1px solid var(--orange);
-    transition:background .15s ease,transform .15s ease;
-  }
-  .cta:hover{background:#d94c1f;border-color:#d94c1f;}
-  .cta:active{transform:translateY(1px);}
-  .cta .arrow{
-    width:14px;height:14px;display:inline-block;
-    border-top:2px solid currentColor;
-    border-right:2px solid currentColor;
-    transform:rotate(45deg);
-    margin-left:2px;
-    margin-right:-2px;
-    margin-top:1px;
-  }
-  @media (max-width:520px){
-    .brand .lockup{height:30px;}
-    .cta{padding:10px 14px;font-size:12px;}
-  }
+.headline{font-weight:900;font-size:32px;letter-spacing:-.03em;line-height:1.18;max-width:600px;margin-bottom:20px;}
+.slide.dark .headline{color:var(--white);}
+.body-text{font-size:15px;line-height:1.85;max-width:520px;margin-bottom:14px;}
+.slide.light .body-text,.slide.canvas .body-text{color:var(--grey);}
+.slide.dark .body-text{color:rgba(255,255,255,.65);}
+.num{font-family:"DM Mono",monospace;font-weight:500;}
+.slide.light .num,.slide.canvas .num{color:var(--navy);}
+.slide.dark .num{color:var(--white);}
 
-  /* ───────── hero ───────── */
-  .hero{
-    background:var(--navy);
-    padding:96px 0 120px;
-    position:relative;
-    overflow:hidden;
-  }
-  .hero::before{
-    /* subtle structural rule, earned */
-    content:"";
-    position:absolute;
-    left:0;right:0;top:0;
-    height:1px;
-    background:transparent;
-  }
-  .hero-grid{
-    display:grid;
-    grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);
-    gap:80px;
-    align-items:start;
-  }
-  @media (max-width:980px){
-    .hero{padding:64px 0 88px;}
-    .hero-grid{grid-template-columns:1fr;gap:56px;}
-    .mech{--mech-offset:0px;}
-  }
+/* TOGGLE DEVICE */
+.toggle{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;}
+.toggle svg{display:block;}
 
-  .hero h1{
-    font-family:"Inter",Arial,sans-serif;
-    font-weight:900;
-    font-size:clamp(48px,6.4vw,72px);
-    line-height:1.02;
-    letter-spacing:-0.04em;
-    color:var(--white);
-    margin:0 0 32px;
-  }
-  .hero h1 .break{display:block;}
+/* PULL QUOTE */
+.statement{font-weight:800;font-size:26px;color:var(--white);letter-spacing:-.02em;line-height:1.42;max-width:540px;position:relative;}
+.statement-mark{font-size:64px;font-weight:900;color:rgba(240,90,40,.16);line-height:1;margin-bottom:6px;}
 
-  .lead{
-    color:var(--body-dark);
-    font-size:18px;
-    line-height:1.7;
-    max-width:54ch;
-    margin:0 0 12px;
-  }
-  .lead + .lead{margin-top:18px;}
-  .lead strong{
-    color:var(--white);
-    font-weight:600;
-  }
+/* FOUNDER TAG */
+.founder-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-burnt);margin-bottom:18px;}
 
-  .lead-divider{
-    width:48px;
-    height:1px;
-    background:var(--hairline-mid);
-    margin:28px 0;
-    border:0;
-  }
+/* DEFINITION OF DONE */
+.dod-list{max-width:460px;margin-top:8px;}
+.dod-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:13px;font-weight:600;color:rgba(255,255,255,.85);}
+.dod-item:last-child{border-bottom:none;}
+.dod-num{font-family:"DM Mono",monospace;font-size:11px;color:var(--orange);flex-shrink:0;padding-top:1px;}
 
-  /* proof */
-  .proof{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:0;
-    margin:44px 0 44px;
-    border-top:1px solid var(--hairline-mid);
-    border-bottom:1px solid var(--hairline-mid);
-  }
-  .proof-item{
-    padding:22px 24px 22px 0;
-    border-right:1px solid var(--hairline-mid);
-  }
-  .proof-item:last-child{border-right:0;padding-right:0;}
-  .proof-item:not(:first-child){padding-left:24px;}
-  .proof-num{
-    font-weight:800;
-    font-size:34px;
-    letter-spacing:-0.03em;
-    color:var(--orange);
-    line-height:1;
-    display:block;
-    margin-bottom:8px;
-  }
-  .proof-num .unit{
-    font-size:18px;
-    font-weight:700;
-    margin-left:2px;
-    letter-spacing:-0.02em;
-  }
-  .proof-label{
-    color:var(--soft);
-    font-size:13px;
-    font-weight:400;
-    line-height:1.4;
-  }
-  @media (max-width:640px){
-    .proof{grid-template-columns:1fr;}
-    .proof-item{
-      border-right:0;
-      border-bottom:1px solid var(--hairline-mid);
-      padding:18px 0;
-    }
-    .proof-item:last-child{border-bottom:0;}
-    .proof-item:not(:first-child){padding-left:0;}
-  }
+/* HONESTY LINES */
+.honesty-line{font-size:14px;font-weight:600;color:var(--navy);padding:10px 0;border-top:1px solid var(--border);max-width:480px;}
+.honesty-line:last-child{border-bottom:1px solid var(--border);}
 
-  /* hero CTA block */
-  .cta-block{margin-top:8px;}
-  .cta-block .pitch{
-    color:var(--white);
-    font-weight:600;
-    font-size:18px;
-    letter-spacing:-0.01em;
-    margin:0 0 16px;
-  }
-  .cta-mail{
-    display:inline-flex;
-    align-items:center;
-    gap:12px;
-    background:var(--orange);
-    color:var(--white);
-    font-weight:700;
-    font-size:16px;
-    padding:18px 24px;
-    letter-spacing:0.005em;
-    border:1px solid var(--orange);
-    transition:background .15s ease,transform .15s ease;
-  }
-  .cta-mail:hover{background:#d94c1f;border-color:#d94c1f;}
-  .cta-mail:active{transform:translateY(1px);}
-  .cta-mail svg{width:18px;height:18px;}
-  .reply{
-    color:var(--soft);
-    font-size:13px;
-    margin-top:14px;
-    letter-spacing:0.005em;
-  }
+/* FOUNDING OFFER LEDGER */
+.ledger{max-width:520px;margin:28px 0;}
+.ledger-row{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.14);}
+.ledger-row:first-child{border-top:1px solid rgba(255,255,255,.14);}
+.ledger-name{font-size:13px;font-weight:700;color:var(--white);}
+.ledger-scope{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;}
+.ledger-price{font-family:"DM Mono",monospace;font-weight:500;font-size:22px;color:var(--white);}
+.ledger-price.founding{color:var(--orange);}
 
-  /* ───────── mechanism card ───────── */
-  .mech{
-    background:var(--navy-deep);
-    border:1px solid var(--hairline-mid);
-    padding:22px 28px 24px;
-    margin-top:var(--mech-offset, 42px);
-    position:relative;
-    box-shadow:0 30px 80px -30px rgba(0,0,0,.6),
-               inset 0 1px 0 rgba(255,255,255,.03);
-  }
-  .mech-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding-bottom:18px;
-    border-bottom:1px solid var(--hairline-mid);
-    margin-bottom:22px;
-  }
-  .mech-eyebrow{
-    font-size:10px;
-    font-weight:700;
-    color:var(--orange);
-    letter-spacing:0.22em;
-    text-transform:uppercase;
-  }
-  .mech-status{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    font-size:10px;
-    font-weight:600;
-    color:var(--soft);
-    letter-spacing:0.18em;
-    text-transform:uppercase;
-  }
-  .mech-status .dot{
-    width:6px;height:6px;border-radius:50%;
-    background:var(--orange);
-    box-shadow:0 0 0 0 rgba(240,90,40,.6);
-    animation:pulse 2.4s infinite;
-  }
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(240,90,40,.55);}
-    70%{box-shadow:0 0 0 8px rgba(240,90,40,0);}
-    100%{box-shadow:0 0 0 0 rgba(240,90,40,0);}
-  }
+/* WHO */
+.who-body{font-size:14.5px;line-height:1.85;max-width:540px;color:var(--grey);}
 
-  .steps{
-    list-style:none;
-    margin:0;
-    padding:0;
-    counter-reset:step;
-    position:relative;
-  }
-  /* connector spine — segments between steps only, breaks at each icon */
-  .step + .step::before{
-    content:"";
-    position:absolute;
-    left:21px;
-    top:-6px;
-    height:12px;
-    width:1px;
-    background:var(--hairline-mid);
-    transform:translateX(-0.5px);
-  }
-  .step{
-    display:grid;
-    grid-template-columns:42px 1fr auto;
-    align-items:center;
-    gap:14px;
-    padding:14px 0;
-    position:relative;
-    opacity:0;
-    transform:translateY(6px);
-    animation:stepIn .55s cubic-bezier(.2,.7,.2,1) forwards;
-  }
-  .step:nth-child(1){animation-delay:.15s;}
-  .step:nth-child(2){animation-delay:.95s;}
-  .step:nth-child(3){animation-delay:1.75s;}
-  .step:nth-child(4){animation-delay:2.55s;}
-  .step:nth-child(5){animation-delay:3.35s;}
+/* ENQUIRY */
+.form-grid{display:grid;grid-template-columns:1fr;gap:16px;max-width:440px;margin-top:8px;}
+.form-field{display:flex;flex-direction:column;gap:7px;}
+.form-field.full{grid-column:1/-1;}
+.form-field label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.55);}
+.form-field input,.form-field select,.form-field textarea{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:4px;padding:12px 14px;color:var(--white);font-family:"Inter",sans-serif;font-size:13.5px;}
+.form-field input::placeholder,.form-field textarea::placeholder{color:rgba(255,255,255,.32);}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{outline:none;border-color:var(--orange);}
+.form-field textarea{resize:vertical;min-height:80px;}
+.btn-light{margin-top:22px;display:inline-flex;align-items:center;gap:10px;background:var(--orange);color:var(--white);font-weight:700;font-size:14px;border:none;cursor:pointer;padding:15px 28px;border-radius:4px;transition:transform .16s ease;box-shadow:0 10px 22px -8px rgba(0,0,0,.4);}
+.btn-light:hover{transform:translateY(-2px);}
+.form-priv{font-size:11px;color:rgba(255,255,255,.35);margin-top:14px;max-width:440px;line-height:1.6;}
 
-  @keyframes stepIn{
-    0%{opacity:0;transform:translateY(8px);}
-    100%{opacity:1;transform:translateY(0);}
-  }
+/* FOOTER */
+.footer{padding:26px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-mark{font-size:11px;color:var(--soft);}
+.footer-mark strong{color:var(--navy);font-weight:700;}
+.footer-contact{font-size:11px;color:var(--soft);}
 
-  .step .icon{
-    width:42px;height:42px;
-    background:transparent;
-    border:1px solid var(--hairline-mid);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--white);
-    position:relative;
-    z-index:1;
-  }
-  .step.accent .icon{
-    border-color:var(--orange);
-    color:var(--orange);
-    background:rgba(240,90,40,0.08);
-  }
-  .step .icon svg{width:18px;height:18px;}
-
-  .step .body{
-    min-width:0;
-  }
-  .step .label{
-    font-size:10px;
-    font-weight:700;
-    color:var(--soft);
-    letter-spacing:0.2em;
-    text-transform:uppercase;
-    line-height:1;
-    margin-bottom:6px;
-  }
-  .step .title{
-    color:var(--white);
-    font-weight:600;
-    font-size:14px;
-    line-height:1.35;
-    letter-spacing:-0.005em;
-  }
-  .step .meta{
-    color:var(--soft);
-    font-size:11px;
-    font-weight:500;
-    letter-spacing:0.04em;
-    white-space:nowrap;
-  }
-
-  .mech-foot{
-    margin-top:22px;
-    padding-top:16px;
-    border-top:1px solid var(--hairline-mid);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-  }
-  .mech-foot .note{
-    font-size:11px;
-    color:var(--soft);
-    letter-spacing:0.06em;
-  }
-  .mech-foot .badge{
-    font-size:10px;
-    font-weight:700;
-    letter-spacing:0.22em;
-    text-transform:uppercase;
-    color:var(--white);
-    opacity:.85;
-  }
-
-  /* ───────── footer ───────── */
-  footer{
-    background:var(--navy);
-    border-top:1px solid var(--hairline-dark);
-    padding:28px 0;
-  }
-  .foot{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:16px;
-    color:var(--soft);
-    font-size:13px;
-    font-weight:400;
-  }
-  .foot a:hover{color:var(--white);}
-  @media (max-width:640px){
-    .foot{flex-direction:column;align-items:flex-start;gap:6px;}
-  }
-
-  /* reduce-motion */
-  @media (prefers-reduced-motion:reduce){
-    .step{animation:none;opacity:1;transform:none;}
-    .mech-status .dot{animation:none;}
-  }
+@media(max-width:640px){
+  .header,.slide,.footer{padding-left:22px;padding-right:22px;}
+  .slide{padding-top:56px;padding-bottom:56px;}
+  .headline{font-size:26px;}
+  .statement{font-size:21px;}
+  .form-grid{grid-template-columns:1fr;}
+  .ledger-row{flex-direction:column;align-items:flex-start;gap:6px;}
+  .footer{flex-direction:column;align-items:flex-start;}
+}
 </style>
 </head>
 <body>
+<div class="page" id="top">
 
-<!-- ─────────── 01 NAV ─────────── -->
-<nav class="nav" aria-label="Primary">
-  <div class="container nav-inner">
-    <a class="brand" href="#top" aria-label="SafeShift Systems home">
-      <svg class="lockup" viewBox="0 0 242 68.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <polygon points="6.51,0 41.38,32.09 0,68.07 56.63,68.07 60.44,64.73 45.83,52.1 68.94,30.66 45.04,9.53 60.29,0" fill="#FFFFFF"/>
-        <polygon points="67.2,0 51.55,9.53 75.38,30.58 51.87,52.18 63.15,62.35 100,30.74" fill="#F05A28"/>
-        <text x="112" y="38.05" text-anchor="start"
-          font-family="Inter, Arial, sans-serif"
-          font-weight="800" font-size="22"
-          letter-spacing="-1.54"
-          fill="#FFFFFF">SAFESHIFT</text>
-        <text x="113.3" y="52.05" text-anchor="start"
-          font-family="Inter, Arial, sans-serif"
-          font-weight="500" font-size="8"
-          letter-spacing="2.56"
-          fill="rgba(255,255,255,0.4)">SYSTEMS</text>
-      </svg>
-    </a>
-    <a class="cta" href="mailto:rob@safeshift.com.au">
-      rob@safeshift.com.au<span class="arrow" aria-hidden="true"></span>
-    </a>
+<!-- HEADER -->
+<div class="header">
+  <div class="mark">
+    <svg viewBox="0 0 100 68.1" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="6.51,0.0 41.38,32.09 0.0,68.07 56.63,68.07 60.44,64.73 45.83,52.1 68.94,30.66 45.04,9.53 60.29,0.0" fill="#1A3A5C"/>
+      <polygon points="67.2,0.0 51.55,9.53 75.38,30.58 51.87,52.18 63.15,62.35 100.0,30.74" fill="#F05A28"/>
+    </svg>
+    <div class="mark-text"><div class="brand">SafeShift</div><div class="sub">Systems</div></div>
   </div>
-</nav>
+  <a class="header-cta" href="#enquire">Book a call</a>
+</div>
 
-<!-- ─────────── 02 HERO ─────────── -->
-<section class="hero" id="top">
-  <div class="container hero-grid">
+<!-- 01 HERO -->
+<div class="slide canvas">
+  <div class="slide-inner">
+  <div class="toggle">
+    <svg width="52" height="28" viewBox="0 0 52 28">
+      <rect x="0" y="0" width="52" height="28" rx="14" fill="#1A3A5C"/>
+      <circle cx="33" cy="14" r="10" fill="#F05A28"/>
+    </svg>
+  </div>
+  <div class="eyebrow">SafeShift Incident</div>
+  <div class="headline">You already own the fix. It's just not switched on.</div>
+  <div class="body-text">Forms. Automation. Storage. Alerts. All sitting inside the Microsoft 365 you already pay for.</div>
+  </div>
+</div>
 
-    <!-- LEFT: copy -->
-    <div class="hero-copy">
-      <div class="eyebrow">SafeShift Incident</div>
+<!-- 02 COST -->
+<div class="slide dark">
+  <div class="slide-inner">
+  <div class="eyebrow">What it's costing you</div>
+  <div class="headline">Someone on your team is spending<br><span style="color:var(--orange);">2 hours a week</span> chasing incident follow-ups.</div>
+  <div class="body-text">Who owns it. What happened next. Whether anyone actioned it.</div>
+  <div class="body-text">That's <strong style="color:var(--white);">100 hours a year</strong>. At $40 an hour, <strong style="color:var(--white);">$4,000</strong>, spent doing nothing but chasing. Not counting whatever slipped through because nobody chased it at all.</div>
+  </div>
+</div>
 
-      <h1>
-        <span class="break">Your incident</span>
-        <span class="break">reporting is broken.</span>
-        <span class="break">You already know it.</span>
-      </h1>
+<!-- 03 FAILURE MODE -->
+<div class="slide light">
+  <div class="slide-inner">
+  <div class="eyebrow">What "off" looks like</div>
+  <div class="headline">You already know what it looks like on the floor.</div>
+  <div class="body-text">Paper forms that don't survive a busy shift. A report submitted into an inbox, no automatic owner, no due date, no follow-up. It runs because one person is holding it together by hand.</div>
+  <div class="body-text">The day they leave, you find out how much was riding on them.</div>
+  </div>
+</div>
 
-      <p class="lead">
-        The frontline doesn't report because it's too hard.<br/>
-        When they do, it disappears into an inbox.<br/>
-        Nobody owns it. Nothing gets closed out.<br/>
-        And the whole thing only works because one person<br/>
-        is holding it together.
-      </p>
+<!-- 04 STATEMENT -->
+<div class="slide dark">
+  <div class="slide-inner">
+  <div class="statement-mark">&ldquo;</div>
+  <div class="statement">It was never built. It was just held together.</div>
+  </div>
+</div>
 
-      <p class="lead">
-        When they leave, you'll find out how broken it really is.
-      </p>
+<!-- 05 FOUNDER -->
+<div class="slide canvas">
+  <div class="slide-inner">
+  <div class="founder-tag">Rob Saint Claire, Founder</div>
+  <div class="headline">Their own developer looked at it and said it wasn't a priority.</div>
+  <div class="body-text">I was head of safety at the time, in a demo, asking for one thing I actually needed. That was the answer. That's the moment I stopped looking for someone else's software and started building my own.</div>
+  <div class="body-text">I taught myself Power Automate, SharePoint, and Microsoft Lists, on the job, because I needed it to work. Submissions started creating tracker records on their own. Owners got assigned without anyone asking. The admin that used to eat my day started running without me.</div>
+  <div class="body-text" style="color:var(--navy);font-weight:700;">That's SafeShift Incident. Built because nobody else would.</div>
+  </div>
+</div>
 
-      <hr class="lead-divider" />
+<!-- 06 PROOF -->
+<div class="slide dark">
+  <div class="slide-inner">
+  <div class="eyebrow">Before I call it done</div>
+  <div class="headline">Here's what "working" actually means.</div>
+  <div class="dod-list">
+    <div class="dod-item"><span class="dod-num">01</span>Submission creates a tracker record</div>
+    <div class="dod-item"><span class="dod-num">02</span>Owner assignment works</div>
+    <div class="dod-item"><span class="dod-num">03</span>Due dates enforce</div>
+    <div class="dod-item"><span class="dod-num">04</span>Overdue logic is visible</div>
+    <div class="dod-item"><span class="dod-num">05</span>PDF generates correctly</div>
+    <div class="dod-item"><span class="dod-num">06</span>Weekly digest sends</div>
+    <div class="dod-item"><span class="dod-num">07</span>Handover guide delivered</div>
+  </div>
+  <div class="body-text" style="margin-top:20px;">If any of those doesn't work, it isn't finished.</div>
+  </div>
+</div>
 
-      <p class="lead">
-        <strong>It was never built. It was just held together.</strong>
-      </p>
+<!-- 07 HONESTY -->
+<div class="slide light">
+  <div class="slide-inner">
+  <div class="eyebrow">Where we're at</div>
+  <div class="headline">No install has gone live yet. No client logos. No case studies.</div>
+  <div class="honesty-line">You get the person who built it. Not a queue.</div>
+  <div class="honesty-line">What's live is live. What isn't, isn't.</div>
+  <div class="honesty-line">The first three installs cost less. You help prove it.</div>
+  </div>
+</div>
 
-      <p class="lead">
-        We build it properly. Inside the tools you already own.<br/>
-        Two weeks. No new software. No new logins.<br/>
-        Your team runs it. You own it. Day one.
-      </p>
-
-      <!-- proof -->
-      <div class="proof" role="list">
-        <div class="proof-item" role="listitem">
-          <span class="proof-num">&lt;3<span class="unit">min</span></span>
-          <div class="proof-label">to report from any phone</div>
-        </div>
-        <div class="proof-item" role="listitem">
-          <span class="proof-num">2<span class="unit">weeks</span></span>
-          <div class="proof-label">from first call to live</div>
-        </div>
-        <div class="proof-item" role="listitem">
-          <span class="proof-num">0</span>
-          <div class="proof-label">zero new software</div>
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <div class="cta-block">
-        <p class="pitch">Book a 15-minute preflight call.</p>
-        <a class="cta-mail" href="mailto:rob@safeshift.com.au">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true">
-            <path d="M3 5h18v14H3z"/>
-            <path d="M3 6l9 7 9-7"/>
-          </svg>
-        </a>
-        <div class="reply">I'll reply within one business day.</div>
-      </div>
+<!-- 08 FOUNDING OFFER -->
+<div class="slide dark">
+  <div class="slide-inner">
+  <div class="eyebrow">The founding offer</div>
+  <div class="headline">First three installs.</div>
+  <div class="ledger">
+    <div class="ledger-row">
+      <div><div class="ledger-name">Founding install</div><div class="ledger-scope">First 3 sites only</div></div>
+      <div class="ledger-price founding">$3,500</div>
     </div>
-
-    <!-- RIGHT: mechanism card -->
-    <aside class="mech" aria-label="How a SafeShift incident flows">
-      <div class="mech-head">
-        <span class="mech-eyebrow">SafeShift Incident</span>
-        <span class="mech-status"><span class="dot"></span>Live</span>
-      </div>
-
-      <ol class="steps">
-        <!-- 1 -->
-        <li class="step accent">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-              <rect x="6" y="2" width="12" height="20" rx="1"/>
-              <line x1="10" y1="18" x2="14" y2="18"/>
-            </svg>
-          </div>
-          <div class="body">
-            <div class="label">Step 01</div>
-            <div class="title">Staff submits from any phone</div>
-          </div>
-          <div class="meta">00:00</div>
-        </li>
-        <!-- 2 -->
-        <li class="step">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-              <polyline points="4 12 10 18 20 6"/>
-            </svg>
-          </div>
-          <div class="body">
-            <div class="label">Step 02</div>
-            <div class="title">Record created in SharePoint</div>
-          </div>
-          <div class="meta">00:02</div>
-        </li>
-        <!-- 3 -->
-        <li class="step">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-              <circle cx="12" cy="8" r="3.5"/>
-              <path d="M4.5 20c1.2-3.5 4.2-5.5 7.5-5.5s6.3 2 7.5 5.5"/>
-            </svg>
-          </div>
-          <div class="body">
-            <div class="label">Step 03</div>
-            <div class="title">Owner assigned automatically</div>
-          </div>
-          <div class="meta">00:03</div>
-        </li>
-        <!-- 4 -->
-        <li class="step accent">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-              <path d="M6 2h9l4 4v16H6z"/>
-              <polyline points="15 2 15 6 19 6"/>
-              <line x1="9" y1="13" x2="16" y2="13"/>
-              <line x1="9" y1="17" x2="16" y2="17"/>
-            </svg>
-          </div>
-          <div class="body">
-            <div class="label">Step 04</div>
-            <div class="title">PDF generated &amp; filed</div>
-          </div>
-          <div class="meta">00:04</div>
-        </li>
-        <!-- 5 -->
-        <li class="step">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-              <circle cx="12" cy="13" r="8"/>
-              <polyline points="12 8 12 13 15.5 15"/>
-            </svg>
-          </div>
-          <div class="body">
-            <div class="label">Step 05</div>
-            <div class="title">Overdue alerts armed automatically</div>
-          </div>
-          <div class="meta">Daily 08:00</div>
-        </li>
-      </ol>
-
-      <div class="mech-foot">
-        <span class="note">Automatic on every submission.</span>
-        <span class="badge">No human required</span>
-      </div>
-    </aside>
-
+    <div class="ledger-row">
+      <div><div class="ledger-name">Standard install</div><div class="ledger-scope">From install 4 onward</div></div>
+      <div class="ledger-price">$5,500</div>
+    </div>
   </div>
-</section>
-
-<!-- ─────────── 03 FOOTER ─────────── -->
-<footer>
-  <div class="container foot">
-    <div>SafeShift Systems · ABN 54 818 564 284</div>
-    <div>Port Noarlunga South, South Australia · <a href="mailto:rob@safeshift.com.au">rob@safeshift.com.au</a></div>
+  <div class="body-text">Once three sites are live, this price is gone.</div>
+  <div class="body-text">In exchange: a short testimonial within two weeks, permission to say we installed it, and a de-identified before and after note.</div>
+  <div class="body-text" style="font-size:12.5px;color:rgba(255,255,255,.45);margin-top:6px;">One standard workflow. Two tweak rounds. We install systems, you keep WHS responsibility. No compliance guarantees, from us or anyone else.</div>
   </div>
-</footer>
+</div>
 
+<!-- 09 WHO -->
+<div class="slide canvas">
+  <div class="slide-inner">
+  <div class="eyebrow">Who this is for</div>
+  <div class="headline">Safety officers and operations managers, already on Microsoft 365.</div>
+  <div class="who-body">Done chasing people to close things out. It's one standard workflow, installed the same way every time, not a custom build and not open-ended consulting.</div>
+  </div>
+</div>
+
+<!-- 10 ENQUIRY -->
+<div class="slide dark" id="enquire">
+  <div class="slide-inner">
+  <div class="eyebrow">Get in touch</div>
+  <div class="headline">Tell me what's actually broken.</div>
+  <div class="body-text">Goes straight to me. No sales team.</div>
+
+  <form id="enquiry-form">
+    <input type="hidden" name="access_key" value="23abd5b7-0b7b-4da7-b028-d461fdcbe97e">
+    <input type="hidden" name="subject" value="SafeShift enquiry">
+    <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+    <div class="form-grid">
+      <div class="form-field"><label for="f-name">Name</label><input id="f-name" name="Name" type="text" required></div>
+      <div class="form-field"><label for="f-company">Company</label><input id="f-company" name="Company" type="text" required></div>
+      <div class="form-field"><label for="f-contact">Email or phone</label><input id="f-contact" name="Best contact" type="text" required></div>
+      <div class="form-field full"><label for="f-broken">What's broken right now</label><textarea id="f-broken" name="What's broken" placeholder="Rough is fine."></textarea></div>
+    </div>
+    <button class="btn-light" type="submit">Submit enquiry</button>
+    <div class="form-priv" id="form-status"></div>
+  </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-mark"><strong>Rob Saint Claire</strong> &middot; Founder, SafeShift Systems &middot; ABN 54 818 564 284</div>
+  <div class="footer-contact">South Australia</div>
+</div>
+
+</div>
+
+<script>
+document.getElementById('enquiry-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const form = e.target;
+  const status = document.getElementById('form-status');
+  const btn = form.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  try{
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {'Accept':'application/json'},
+      body: new FormData(form)
+    });
+    const data = await res.json();
+    if(data.success){
+      form.innerHTML = '';
+      status.textContent = "Got it. I'll reply within one business day.";
+      status.style.color = '#F05A28';
+      status.style.fontSize = '13px';
+    } else {
+      status.textContent = "Didn't go through. Email rob@safeshift.com.au directly.";
+      btn.disabled = false;
+      btn.textContent = 'Send it';
+    }
+  } catch(err){
+    status.textContent = "Didn't go through. Email rob@safeshift.com.au directly.";
+    btn.disabled = false;
+    btn.textContent = 'Send it';
+  }
+});
+</script>
 </body>
 </html>
