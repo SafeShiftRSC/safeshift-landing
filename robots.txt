@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://safeshift.com.au/sitemap.xml
