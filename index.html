@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SafeShift Systems | Incident reporting, properly built.</title>
 <meta name="description" content="We rebuild your incident reporting inside the Microsoft 365 tools you already own. Two weeks. No new software.">
+<link rel="canonical" href="https://safeshift.com.au/">
+<meta name="theme-color" content="#0F2238">
+
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SafeShift Systems">
+<meta property="og:url" content="https://safeshift.com.au/">
+<meta property="og:title" content="SafeShift Systems | Incident reporting, properly built.">
+<meta property="og:description" content="We rebuild your incident reporting inside the Microsoft 365 tools you already own. Two weeks. No new software.">
+<meta property="og:image" content="https://safeshift.com.au/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_AU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SafeShift Systems | Incident reporting, properly built.">
+<meta name="twitter:description" content="We rebuild your incident reporting inside the Microsoft 365 tools you already own. Two weeks. No new software.">
+<meta name="twitter:image" content="https://safeshift.com.au/og-image.png">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "SafeShift Systems",
+  "url": "https://safeshift.com.au/",
+  "logo": "https://safeshift.com.au/android-chrome-512x512.png",
+  "image": "https://safeshift.com.au/og-image.png",
+  "description": "We rebuild incident reporting inside the Microsoft 365 tools you already own. No new software, installed in two weeks.",
+  "founder": { "@type": "Person", "name": "Rob Saint Claire" },
+  "areaServed": "AU",
+  "address": { "@type": "PostalAddress", "addressRegion": "SA", "addressCountry": "AU" },
+  "taxID": "54 818 564 284"
+}
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -79,7 +121,7 @@ a{color:inherit;}
 .ledger-row{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.14);}
 .ledger-row:first-child{border-top:1px solid rgba(255,255,255,.14);}
 .ledger-name{font-size:13px;font-weight:700;color:var(--white);}
-.ledger-scope{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;}
+.ledger-scope{font-size:11px;color:rgba(255,255,255,.72);margin-top:3px;}
 .ledger-price{font-family:"DM Mono",monospace;font-weight:500;font-size:22px;color:var(--white);}
 .ledger-price.founding{color:var(--orange);}
 
@@ -104,6 +146,8 @@ a{color:inherit;}
 .footer-mark{font-size:11px;color:var(--soft);}
 .footer-mark strong{color:var(--navy);font-weight:700;}
 .footer-contact{font-size:11px;color:var(--soft);}
+.footer a{color:var(--soft);text-decoration:underline;text-underline-offset:2px;}
+.footer a:hover{color:var(--navy);}
 
 @media(max-width:640px){
   .header,.slide,.footer{padding-left:22px;padding-right:22px;}
@@ -142,7 +186,7 @@ a{color:inherit;}
     </svg>
   </div>
   <div class="eyebrow">SafeShift Incident</div>
-  <div class="headline">You already own the fix. It's just not switched on.</div>
+  <h1 class="headline">You already own the fix. It's just not switched on.</h1>
   <div class="body-text">Forms. Automation. Storage. Alerts. All sitting inside the Microsoft 365 you already pay for.</div>
   </div>
 </div>
@@ -151,7 +195,7 @@ a{color:inherit;}
 <div class="slide dark">
   <div class="slide-inner">
   <div class="eyebrow">What it's costing you</div>
-  <div class="headline">Someone on your team is spending<br><span style="color:var(--orange);">2 hours a week</span> chasing incident follow-ups.</div>
+  <h2 class="headline">Someone on your team is spending<br><span style="color:var(--orange);">2 hours a week</span> chasing incident follow-ups.</h2>
   <div class="body-text">Who owns it. What happened next. Whether anyone actioned it.</div>
   <div class="body-text">That's <strong style="color:var(--white);">100 hours a year</strong>. At $40 an hour, <strong style="color:var(--white);">$4,000</strong>, spent doing nothing but chasing. Not counting whatever slipped through because nobody chased it at all.</div>
   </div>
@@ -161,7 +205,7 @@ a{color:inherit;}
 <div class="slide light">
   <div class="slide-inner">
   <div class="eyebrow">What "off" looks like</div>
-  <div class="headline">You already know what it looks like on the floor.</div>
+  <h2 class="headline">You already know what it looks like on the floor.</h2>
   <div class="body-text">Paper forms that don't survive a busy shift. A report submitted into an inbox, no automatic owner, no due date, no follow-up. It runs because one person is holding it together by hand.</div>
   <div class="body-text">The day they leave, you find out how much was riding on them.</div>
   </div>
@@ -171,7 +215,7 @@ a{color:inherit;}
 <div class="slide dark">
   <div class="slide-inner">
   <div class="statement-mark">&ldquo;</div>
-  <div class="statement">It was never built. It was just held together.</div>
+  <blockquote class="statement">It was never built. It was just held together.</blockquote>
   </div>
 </div>
 
@@ -179,7 +223,7 @@ a{color:inherit;}
 <div class="slide canvas">
   <div class="slide-inner">
   <div class="founder-tag">Rob Saint Claire, Founder</div>
-  <div class="headline">Their own developer looked at it and said it wasn't a priority.</div>
+  <h2 class="headline">Their own developer looked at it and said it wasn't a priority.</h2>
   <div class="body-text">I was head of safety at the time, in a demo, asking for one thing I actually needed. That was the answer. That's the moment I stopped looking for someone else's software and started building my own.</div>
   <div class="body-text">I taught myself Power Automate, SharePoint, and Microsoft Lists, on the job, because I needed it to work. Submissions started creating tracker records on their own. Owners got assigned without anyone asking. The admin that used to eat my day started running without me.</div>
   <div class="body-text" style="color:var(--navy);font-weight:700;">That's SafeShift Incident. Built because nobody else would.</div>
@@ -190,7 +234,7 @@ a{color:inherit;}
 <div class="slide dark">
   <div class="slide-inner">
   <div class="eyebrow">Before I call it done</div>
-  <div class="headline">Here's what "working" actually means.</div>
+  <h2 class="headline">Here's what "working" actually means.</h2>
   <div class="dod-list">
     <div class="dod-item"><span class="dod-num">01</span>Submission creates a tracker record</div>
     <div class="dod-item"><span class="dod-num">02</span>Owner assignment works</div>
@@ -208,7 +252,7 @@ a{color:inherit;}
 <div class="slide light">
   <div class="slide-inner">
   <div class="eyebrow">Where we're at</div>
-  <div class="headline">No install has gone live yet. No client logos. No case studies.</div>
+  <h2 class="headline">No install has gone live yet. No client logos. No case studies.</h2>
   <div class="honesty-line">You get the person who built it. Not a queue.</div>
   <div class="honesty-line">What's live is live. What isn't, isn't.</div>
   <div class="honesty-line">The first three installs cost less. You help prove it.</div>
@@ -219,7 +263,7 @@ a{color:inherit;}
 <div class="slide dark">
   <div class="slide-inner">
   <div class="eyebrow">The founding offer</div>
-  <div class="headline">First three installs.</div>
+  <h2 class="headline">First three installs.</h2>
   <div class="ledger">
     <div class="ledger-row">
       <div><div class="ledger-name">Founding install</div><div class="ledger-scope">First 3 sites only</div></div>
@@ -240,7 +284,7 @@ a{color:inherit;}
 <div class="slide canvas">
   <div class="slide-inner">
   <div class="eyebrow">Who this is for</div>
-  <div class="headline">Safety officers and operations managers, already on Microsoft 365.</div>
+  <h2 class="headline">Safety officers and operations managers, already on Microsoft 365.</h2>
   <div class="who-body">Done chasing people to close things out. It's one standard workflow, installed the same way every time, not a custom build and not open-ended consulting.</div>
   </div>
 </div>
@@ -249,7 +293,7 @@ a{color:inherit;}
 <div class="slide dark" id="enquire">
   <div class="slide-inner">
   <div class="eyebrow">Get in touch</div>
-  <div class="headline">Tell me what's actually broken.</div>
+  <h2 class="headline">Tell me what's actually broken.</h2>
   <div class="body-text">Goes straight to me. No sales team.</div>
 
   <form id="enquiry-form">
@@ -270,8 +314,8 @@ a{color:inherit;}
 
 <!-- FOOTER -->
 <div class="footer">
-  <div class="footer-mark"><strong>Rob Saint Claire</strong> &middot; Founder, SafeShift Systems &middot; ABN 54 818 564 284</div>
-  <div class="footer-contact">South Australia</div>
+  <div class="footer-mark"><strong>Rob Saint Claire</strong> &middot; Founder, SafeShift Systems &middot; ABN 54 818 564 284 (<a href="https://abr.business.gov.au/ABN/View?abn=54818564284" target="_blank" rel="noopener">verify</a>) &middot; <a href="mailto:rob@safeshift.com.au">rob@safeshift.com.au</a></div>
+  <div class="footer-contact">South Australia &middot; <a href="/privacy.html">Privacy</a></div>
 </div>
 
 </div>
